@@ -1,31 +1,31 @@
 # challenge-api-deployment
 
 
-    ##Description
+    Description
     
     
     
-    ##Installation
+    Installation
     
     
     
-    ##Usage
+    Usage
     
     
     
-    ##(Visuals)
+    (Visuals)
     
     
     
-    ##(Contributors)
+    (Contributors)
     
     
     
-    ##(Timeline)
+    (Timeline)
     
     
     
-    ##(Personal situation)
+    (Personal situation)
 
 
     
