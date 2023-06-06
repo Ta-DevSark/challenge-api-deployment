@@ -8,45 +8,51 @@
 # run the server with command line : uvicorn app:app --reload
 
 from typing import Union
-from fastapi import FastAPI
 from pydantic import BaseModel
-from sklearn.externals import joblib
+from fastapi import FastAPI, HTTPException
+import joblib
+
+lrm = joblib.load('model.pkl')
 
 app = FastAPI()
 
+class Textin(BaseModel):
+    text: str
+
 @app.get("/")
 def read_root():
-    return {"alive"}
+    return {"message" : "alive"}
 
 @app.post("/predict")
-def predict(data):# not sure what to write here
-    return {""}# same here
+def predict(text: Textin):
+
+    if(not(text.text)):
+        raise HTTPException(status_code=400, 
+                            detail = "Please Provide a valid text message")
+    prediction = lrm.predict([text.text])
+
+    return {"prediction" : prediction}
 
 @app.get("/predict")
 def predict():
-    return ("Required : data of a house in JSON format")
-
-class Property_variables :
-    Optional = ""
-    {
-  "data": {
-    "area": int,
-    "property-type": "APARTMENT" | "HOUSE" | "OTHERS",
-    "rooms-number": int,
-    "zip-code": int,
-    "land-area": Optional[int],
-    "garden": Optional[bool],
-    "garden-area": Optional[int],
-    "equipped-kitchen": Optional[bool],
-    "full-address": Optional[str],
-    "swimming-pool": Optional[bool],
-    "furnished": Optional[bool],
-    "open-fire": Optional[bool],
-    "terrace": Optional[bool],
-    "terrace-area": Optional[int],
-    "facades-number": Optional[int],
-    "building-state": Optional[
-      "NEW" | "GOOD" | "TO RENOVATE" | "JUST RENOVATED" | "TO REBUILD"
-    ]
-  }
-}
+  return {
+      "message": "Required : data of a house in JSON format",
+      "data_format": {
+            "area": "int",
+            "property-type": "str",
+            "rooms-number": "int",
+            "zip-code": "int",
+            "land-area": "optional[int]",
+            "garden": "optional[bool]",
+            "garden-area": "optional[int]",
+            "equipped-kitchen": "optional[bool]",
+            "full-address": "optional[str]",
+            "swimming-pool": "optional[bool]",
+            "furnished": "optional[bool]",
+            "open-fire": "optional[bool]",
+            "terrace": "optional[bool]",
+            "terrace-area": "optional[int]",
+            "facades-number": "optional[int]",
+            "building-state": 'optional["NEW" | "GOOD" | "TO RENOVATE" | "JUST RENOVATED" | "TO REBUILD"]'
+        }
+    }

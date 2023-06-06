@@ -26,10 +26,8 @@ X = X.fillna(0)
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=101)
 
-lm = LinearRegression() 
+lrm = LinearRegression() 
 
-lm.fit(X_train,y_train)
+lrm.fit(X_train,y_train)
 
-joblib.dump(lm, 'model.pkl')
-
-predictions = lm.predict(X_test)
+joblib.dump(lrm, 'model.pkl')
