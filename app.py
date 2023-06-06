@@ -7,10 +7,10 @@
 
 # run the server with command line : uvicorn app:app --reload
 
-
 from typing import Union
 from fastapi import FastAPI
 from pydantic import BaseModel
+from sklearn.externals import joblib
 
 app = FastAPI()
 
@@ -25,3 +25,28 @@ def predict(data):# not sure what to write here
 @app.get("/predict")
 def predict():
     return ("Required : data of a house in JSON format")
+
+class Property_variables :
+    Optional = ""
+    {
+  "data": {
+    "area": int,
+    "property-type": "APARTMENT" | "HOUSE" | "OTHERS",
+    "rooms-number": int,
+    "zip-code": int,
+    "land-area": Optional[int],
+    "garden": Optional[bool],
+    "garden-area": Optional[int],
+    "equipped-kitchen": Optional[bool],
+    "full-address": Optional[str],
+    "swimming-pool": Optional[bool],
+    "furnished": Optional[bool],
+    "open-fire": Optional[bool],
+    "terrace": Optional[bool],
+    "terrace-area": Optional[int],
+    "facades-number": Optional[int],
+    "building-state": Optional[
+      "NEW" | "GOOD" | "TO RENOVATE" | "JUST RENOVATED" | "TO REBUILD"
+    ]
+  }
+}
