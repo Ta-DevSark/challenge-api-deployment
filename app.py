@@ -20,7 +20,6 @@ def read_root():
 #        'Construction_year'],
 #       dtype='object')
 
-
 @app.post("/predict")
 def predict(
    Number_of_rooms: float = 3,
