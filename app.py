@@ -33,26 +33,25 @@ def predict(text: Textin):
 
     return {"prediction" : prediction}
 
+class Property_variables:
+    {
+    "area": "float",
+    "property-type": "float",
+    "rooms-number": "float",
+    "zip": "flot",
+    "Locality" : "float",
+    "Type of sale": "float",
+    "Type_of_property": "float",
+    "Subtype_of_property": "float",
+    "Number_of_facades": "float",
+    "Number_of_rooms": "float",
+    "Fully_equipped_kitchen": "float",
+    "Open_fire": "float",
+    "Surface_of_the_land": "float",
+    }
+    
 @app.get("/predict")
 def predict():
   return {
       "message": "Required : data of a house in JSON format",
-      "data_format": {
-            "area": "int",
-            "property-type": "str",
-            "rooms-number": "int",
-            "zip-code": "int",
-            "land-area": "optional[int]",
-            "garden": "optional[bool]",
-            "garden-area": "optional[int]",
-            "equipped-kitchen": "optional[bool]",
-            "full-address": "optional[str]",
-            "swimming-pool": "optional[bool]",
-            "furnished": "optional[bool]",
-            "open-fire": "optional[bool]",
-            "terrace": "optional[bool]",
-            "terrace-area": "optional[int]",
-            "facades-number": "optional[int]",
-            "building-state": 'optional["NEW" | "GOOD" | "TO RENOVATE" | "JUST RENOVATED" | "TO REBUILD"]'
-        }
     }

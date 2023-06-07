@@ -1,4 +1,4 @@
-,id,Price,Zip,Type of property,Subtype of property,Locality,Surroundings type,Living area,Number of rooms,Bathrooms,Construction year,Number of facades,Swimming pool,Furnished,Open fire,Terrace,Terrace surface,Garden,Garden surface,Primary energy consumption,Energy class,Heating type,Kitchen values,Building Cond. values,Parking,Province
+,id,Price,Zip,Type_of_property,Subtype_of_property,Locality,Surroundings type,Living area,Number_of_rooms,Bathrooms,Construction year,Number_of_facades,Swimming pool,Furnished,Open_fire,Terrace,Terrace surface,Garden,Garden surface,Primary energy consumption,Energy class,Heating type,Kitchen values,Building Cond. values,Parking,Province
 9988,10592767.0,395000.0,9800.0,apartment,apartment,deinze,Urban,99.0,2.0,1.0,2023.0,4.0,0.0,0.0,0.0,1.0,12.0,1.0,0.0,1.0,A,Gas,3.0,4.0,111.0,East Flanders
 9989,10585594.0,260000.0,9890.0,apartment,apartment,gavere,Urban,76.0,1.0,1.0,2021.0,4.0,0.0,0.0,0.0,1.0,11.0,0.0,0.0,1.0,A,Gas,3.0,4.0,2.0,East Flanders
 9990,10585588.0,265000.0,9890.0,apartment,apartment,gavere,Urban,76.0,1.0,1.0,2021.0,4.0,0.0,0.0,0.0,1.0,11.0,0.0,0.0,1.0,A,Gas,3.0,4.0,2.0,East Flanders
