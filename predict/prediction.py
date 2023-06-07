@@ -1,7 +1,3 @@
-# This file will contain all the code used to predict a new house's price.
-
-# def predict() will take your preprocessed data as an input and return a price as output.
-
 import pandas as pd
 import numpy as np
 import seaborn as sns
@@ -13,17 +9,22 @@ from sklearn import metrics
 from sklearn.metrics import r2_score
 from typing import List
 import joblib
+from sklearn.feature_selection import SelectPercentile, mutual_info_regression
 
-house_df = pd.read_csv("final_house.csv")
+df = pd.read_csv("final_house.csv")
 
-X = house_df
+df = df[['Price', 'Number_of_rooms', 'Living area', 'Zip', 
+          "Primary energy consumption", 'Construction year']]
 
-y = house_df['Price']
+df.isna().sum()
 
-X =  X.drop(['Heating type','Surroundings type','Unnamed: 0','Zip', 'Price' , 'Locality','id', 'Primary energy consumption','Type of property',
-                                         'Subtype of property', 'Energy class', 'Province'], axis=1)
+df.columns = df.columns.str.replace(' ', '_')
 
-X = X.fillna(0)
+df = df.fillna(0)
+
+X = df.drop('Price', axis = 1)
+
+y = df['Price']
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=101)
 
@@ -36,4 +37,11 @@ y_prediction = lrm.predict(X_test)
 score = r2_score(y_test, y_prediction)
 
 print(score)
+
 joblib.dump(lrm, 'model.pkl')
+
+print(X_train.columns)
+
+d = np.array([[4, 150, 1000, 100, 1991]])
+
+print(lrm.predict(d))

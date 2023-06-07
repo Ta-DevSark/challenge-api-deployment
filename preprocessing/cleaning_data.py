@@ -144,7 +144,7 @@ def knn_imputer(df, exclude_cols):
     df[other_cols] = impute_knn.fit_transform(df[other_cols]).astype(float)
     return df
 
-def preprocess(apt_df: pd.DataFrame):
+def preprocess(house_df: pd.DataFrame):
     kitchen_mapping = {'Not installed': 0, 'Installed': 1, 'Semi equipped': 2, 'Hyper equipped': 3, 'USA uninstalled': 0,
                        'USA installed': 1, 'USA semi equipped': 2, 'USA hyper equipped': 3}
     building_cond_mapping = {'To restore': 0, 'To be done up': 2, 'Just renovated': 3, 'To renovate': 1, 'Good': 3, 'As new': 4}

@@ -1,16 +1,10 @@
-
-    # A route at / that accept:
-    #     GET request and return "alive" if the server is alive.
-    # A route at /predict that accept:
-    #     POST request that receives the data of a house in JSON format.
-    #     GET request returning a string to explain what the POST expect (data and format).
-
 # run the server with command line : uvicorn app:app --reload
 
 from typing import Literal, Union
+import numpy as np
 import pandas as pd
 from pydantic import BaseModel
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI
 import joblib
 from preprocessing.cleaning_data import preprocess
 
@@ -22,45 +16,50 @@ app = FastAPI()
 def read_root():
     return {"message" : "alive"}
 
+# Index(['Number_of_rooms', 'Living_area', 'Zip', 'Primary_energy_consumption',
+#        'Construction_year'],
+#       dtype='object')
+
+
 @app.post("/predict")
 def predict(
-    Locality: str = "bruxelles",
-    Type_of_sale: Literal["sale", "rent"] = "sale", 
-    Type_of_property: Literal["house", "apartment"] = "house",
-    Subtype_of_property: str = "house",
-    Number_of_facade: int = 4,
-    Number_of_rooms: int = 4,
-    Fully_equipped_kitchen: bool = True,
-    Open_fire: bool = True,
-    Surface_of_the_land: float = 124.4
+   Number_of_rooms: float = 3,
+   Living_area: float = 154, 
+   Zip: float = 1000, 
+   Primary_energy_consumption: float = 122,
+   Construction_year: float = 1991
 ):
-    house_details = {
-        "Locality" : Locality,
-        "Type_of_sale": Type_of_sale,
-        "Type_of_property": Type_of_property,
-        "Subtype_of_property": Subtype_of_property,
-        "Number_of_facades": Number_of_facade,
-        "Number_of_rooms": Number_of_rooms,
-        "Fully_equipped_kitchen": Fully_equipped_kitchen,
-        "Open_fire": Open_fire,
-        "Surface_of_the_land": Surface_of_the_land,
-    }
-    df = pd.DataFrame(house_details)
-    cleaned_data = preprocess(df)
-    prediction = lrm.predict(cleaned_data)
+    data = np.array([[Number_of_rooms, Living_area, Zip, Primary_energy_consumption, Construction_year]])
+    # matrix = lrm.
+    data_prediction = lrm.predict(data)
 
-    return {"prediction" : prediction}
+    converted_prediction = float(data_prediction[0])
+
+    # house_details = {
+    #     "Locality" : Locality,
+    #     "Type_of_sale": Type_of_sale,
+    #     "Type_of_property": Type_of_property,
+    #     "Subtype_of_property": Subtype_of_property,
+    #     "Number_of_facades": Number_of_facade,
+    #     "Number_of_rooms": Number_of_rooms,
+    #     "Fully_equipped_kitchen": Fully_equipped_kitchen,
+    #     "Open_fire": Open_fire,
+    #     "Surface_of_the_land": Surface_of_the_land,
+    # }  
+    
+
+    # df = pd.DataFrame(data)
+    # cleaned_data = preprocess(df)
+    # prediction = lrm.predict(cleaned_data)
+
+    return {"converted_prediction" : converted_prediction}
 
 Property_variables = {
-    "Locality" : "float",
-    "Type_of_sale": "float",
-    "Type_of_property": "float",
-    "Subtype_of_property": "float",
-    "Number_of_facades": "float",
-    "Number_of_rooms": "float",
-    "Fully_equipped_kitchen": "float",
-    "Open_fire": "float",
-    "Surface_of_the_land": "float",
+   "Number_of_rooms": "float",
+   "Living_area": "float", 
+   "Zip": "float", 
+   "Primary_energy_consumption": "float",
+   "Construction_year": "float",
     }
 
 @app.get("/predict")
