@@ -7,40 +7,53 @@
 
 # run the server with command line : uvicorn app:app --reload
 
-from typing import Union
+from typing import Literal, Union
+import pandas as pd
 from pydantic import BaseModel
 from fastapi import FastAPI, HTTPException
 import joblib
+from preprocessing.cleaning_data import preprocess
 
 lrm = joblib.load('model.pkl')
 
 app = FastAPI()
-
-class Textin(BaseModel):
-    text: str
 
 @app.get("/")
 def read_root():
     return {"message" : "alive"}
 
 @app.post("/predict")
-def predict(text: Textin):
-
-    if(not(text.text)):
-        raise HTTPException(status_code=400, 
-                            detail = "Please Provide a valid text message")
-    prediction = lrm.predict([text.text])
+def predict(
+    Locality: str = "bruxelles",
+    Type_of_sale: Literal["sale", "rent"] = "sale", 
+    Type_of_property: Literal["house", "apartment"] = "house",
+    Subtype_of_property: str = "house",
+    Number_of_facade: int = 4,
+    Number_of_rooms: int = 4,
+    Fully_equipped_kitchen: bool = True,
+    Open_fire: bool = True,
+    Surface_of_the_land: float = 124.4
+):
+    house_details = {
+        "Locality" : Locality,
+        "Type_of_sale": Type_of_sale,
+        "Type_of_property": Type_of_property,
+        "Subtype_of_property": Subtype_of_property,
+        "Number_of_facades": Number_of_facade,
+        "Number_of_rooms": Number_of_rooms,
+        "Fully_equipped_kitchen": Fully_equipped_kitchen,
+        "Open_fire": Open_fire,
+        "Surface_of_the_land": Surface_of_the_land,
+    }
+    df = pd.DataFrame(house_details)
+    cleaned_data = preprocess(df)
+    prediction = lrm.predict(cleaned_data)
 
     return {"prediction" : prediction}
 
-class Property_variables:
-    {
-    "area": "float",
-    "property-type": "float",
-    "rooms-number": "float",
-    "zip": "flot",
+Property_variables = {
     "Locality" : "float",
-    "Type of sale": "float",
+    "Type_of_sale": "float",
     "Type_of_property": "float",
     "Subtype_of_property": "float",
     "Number_of_facades": "float",
@@ -49,9 +62,9 @@ class Property_variables:
     "Open_fire": "float",
     "Surface_of_the_land": "float",
     }
-    
+
 @app.get("/predict")
 def predict():
   return {
-      "message": "Required : data of a house in JSON format",
+      "message": Property_variables,
     }

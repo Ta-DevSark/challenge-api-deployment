@@ -20,7 +20,7 @@ X = house_df
 
 y = house_df['Price']
 
-X =  X.drop(['Heating type','Surroundings type','Unnamed: 0', 'Price' , 'Locality','id', 'Primary energy consumption','Type of property',
+X =  X.drop(['Heating type','Surroundings type','Unnamed: 0','Zip', 'Price' , 'Locality','id', 'Primary energy consumption','Type of property',
                                          'Subtype of property', 'Energy class', 'Province'], axis=1)
 
 X = X.fillna(0)

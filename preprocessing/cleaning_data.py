@@ -144,13 +144,13 @@ def knn_imputer(df, exclude_cols):
     df[other_cols] = impute_knn.fit_transform(df[other_cols]).astype(float)
     return df
 
-def main():
+def preprocess(apt_df: pd.DataFrame):
     kitchen_mapping = {'Not installed': 0, 'Installed': 1, 'Semi equipped': 2, 'Hyper equipped': 3, 'USA uninstalled': 0,
                        'USA installed': 1, 'USA semi equipped': 2, 'USA hyper equipped': 3}
     building_cond_mapping = {'To restore': 0, 'To be done up': 2, 'Just renovated': 3, 'To renovate': 1, 'Good': 3, 'As new': 4}
     exclude_cols = ["Price","Type_of_property","Subtype_of_property","Locality","Surroundings type","Energy class","Heating type","Province"]
     # Apartment code
-    apt_df = load_and_preprocess_data("raw_data.csv", "apartment")
+    
     apt_df = select_and_rename_columns(apt_df)
     apt_df = apt_df.drop(columns=['Surface_of_the_land'])
     common_cols = ['Living area', 'Terrace surface', 'Garden surface', 'Primary energy consumption']
@@ -172,7 +172,7 @@ def main():
     aptdf = apt_df.copy()
     aptdf = remove_outliers(aptdf, ['Price'], 4)
     apt_df = remove_outliers(aptdf, ['Living area'], 3)
-    apt_df.to_csv("final_apartment.csv")
+    # apt_df.to_csv("final_apartment.csv")
 
 
     # House code
@@ -203,7 +203,8 @@ def main():
     house_df = remove_outliers(housedf, ['Living area', 'Surface_of_the_land'], 3)
     house_df['Surface_of_the_land'] = one_convert_to_nan(house_df['Surface_of_the_land'])
 
-    house_df.to_csv("final_house.csv")
+    return house_df
 
 if __name__ == "__main__":
-    main()
+    df = pd.read_csv("raw_data.csv")
+    cleaned_data = preprocess(df)
