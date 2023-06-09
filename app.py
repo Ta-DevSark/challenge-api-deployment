@@ -29,7 +29,6 @@ def predict(
    Construction_year: float = 1991
 ):
     data = np.array([[Number_of_rooms, Living_area, Zip, Primary_energy_consumption, Construction_year]])
-    # matrix = lrm.
     data_prediction = lrm.predict(data)
 
     converted_prediction = float(data_prediction[0])
@@ -45,7 +44,6 @@ def predict(
     #     "Open_fire": Open_fire,
     #     "Surface_of_the_land": Surface_of_the_land,
     # }  
-    
 
     # df = pd.DataFrame(data)
     # cleaned_data = preprocess(df)
